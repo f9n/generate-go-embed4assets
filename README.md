@@ -9,7 +9,7 @@ Generate go embed file for assets (.json,.yaml,.yml)
 
 ### Install using Homebrew
 
-Using [Homebrew](https://brew.sh), you can install using the My personal Homebrew tap:
+Using [Homebrew](https://brew.sh), you can install using the my Homebrew tap:
 
 ```shell
 brew install f9n/homebrew-tap/generate-go-embed4assets
@@ -27,8 +27,17 @@ go install github.com/f9n/generate-go-embed4assets/cmd/generate-go-embed4assets@
 ## Usage
 
 ```shell
-$ generate-go-embed4assets version
+$ generate-go-embed4assets --help
+Usage of generate-go-embed4assets:
+  -directory string
+    where to find assets (default "gen/go")
+  -file-formats string
+    evaluate these file format types (default ".json,.yaml,.yml")
+  -version
+    print the current version
+$ generate-go-embed4assets -version
+version v0.1.0, gitCommit: ..., buildDate: ..., buildUser: ...
 
-$ generate-go-embed4assets -directory gen/go -file-formats=.json,.yml
-
+$ generate-go-embed4assets -directory gen -file-formats=.json,.yml
+[+] Generating gen/swagger/apidocs.swagger.json.embed.go
 ```
