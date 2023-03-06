@@ -1,0 +1,60 @@
+project_name: generate-go-embed4assets
+universal_binaries:
+  - replace: true
+
+before:
+  hooks:
+    - go mod tidy
+    - go mod download
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    main: ./cmd/generate-go-embed4assets/main.go
+    ldflags:
+      - -s -w -X main.gitCommit={{.Commit}} -X main.buildDate={{.Date}} -X main.buildUser=goreleaser -X main.version={{.Tag}}
+
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of uname.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+brews:
+  - name: generate-go-embed4assets
+    homepage: "https://github.com/f9n/generate-go-embed4assets"
+    description: "Generate go embed files for assets (.json,.yaml,.yml,...)."
+    license: "GNU General Public License v3.0"
+    folder: Formula
+    url_template: "https://github.com/f9n/generate-go-embed4assets/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    tap:
+      owner: f9n
+      name: homebrew-tap
+      branch: main
+      token: "{{ .Env.GORELEASER_GITHUB_TOKEN }}"
