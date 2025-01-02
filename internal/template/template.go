@@ -22,7 +22,6 @@ import (
 
 //go:embed {{.Filename}}
 var {{.GoVariableName}} []byte
-
 `
 
 type Data struct {
