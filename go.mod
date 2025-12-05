@@ -1,8 +1,8 @@
 module github.com/f9n/generate-go-embed4assets
 
-go 1.20
+go 1.24.0
 
 require (
 	github.com/pkg/errors v0.9.1
-	golang.org/x/text v0.10.0
+	golang.org/x/text v0.31.0
 )
